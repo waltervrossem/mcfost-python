@@ -94,18 +94,18 @@ def find_closest(list_, item):
     minelt = min(list_,key=lambda x:abs(x-item))
     return np.where(np.asarray(list_) == minelt)[0][0]
 
-def ccm_extinction(Rv, lambda_ang):
+def ccm_extinction(Rv, lambda_um):
 
     """ 
     Python implementation of the idl_lib extinction correction function
     to be called by the SED chisqrd fitting method in the python version of
     MCRE. Accepts Rv, the reddening index at V (Default = 3.1) and the 
-    wavelength in Angstroms. Extinction curve A(lambda)/A(V) is returned.
+    wavelength in micron. Extinction curve A(lambda)/A(V) is returned.
     """
-    lambda_ang = np.asarray(lambda_ang)
-    inv_lam = 1.0/lambda_ang
+    lambda_um = np.asarray(lambda_um)
+    inv_lam = 1.0/lambda_um
     #print 'inv_lam',inv_lam
-    s = len(lambda_ang)
+    s = len(lambda_um)
     a = np.zeros((s))
     b = np.zeros((s)) # confirm proper syntax
 
@@ -140,7 +140,7 @@ def ccm_extinction(Rv, lambda_ang):
     b[uv] = -3.090 + 1.825*x + 1.206/( (x-4.62)**2 + 0.263) + fb
 
     # Compute the extintion at each wavelength and return
-    A_lambda = np.asarray((a+b)/Rv)
+    A_lambda = np.asarray(a+b/Rv)
     
     return A_lambda
 
